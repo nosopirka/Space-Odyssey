@@ -62,7 +62,7 @@ def start_screen():
     fon = pygame.transform.scale(load_image('space.jpg'), (width, 2312))
     screen.blit(fon, (0, 0))
     start_button = Button(screen, (3, 0, 79), (width - 350) // 2, (height - 100) // 2, 350, 100,
-                          "ИГРАТЬ", (255, 255, 255))
+                          "РРіСЂР°С‚СЊ", (255, 255, 255))
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -86,7 +86,7 @@ def spaceships_screen():
 
         left_choise = Button(screen, (3, 0, 79), 365, 600, 145, 75, "<<", (255, 255, 255))
         right_choise = Button(screen, (3, 0, 79), 790, 600, 145, 75, ">>", (255, 255, 255))
-        choise = Button(screen, (3, 0, 79), 530, 600, 240, 75, "Выбрать", (255, 255, 255))
+        choise = Button(screen, (3, 0, 79), 530, 600, 240, 75, "Р’С‹Р±СЂР°С‚СЊ", (255, 255, 255))
 
         character_text = pygame.font.SysFont("Calibri", 30).render(spaceships[order][3], 1, (255, 255, 255))
 
@@ -249,38 +249,38 @@ class Game_2d:
             text = font.render("FPS: "+str(int(clock.get_fps())), True, (100, 255, 100))
             screen.blit(text, (width-199, 10))            
             font = pygame.font.Font(None, 38)
-            text = font.render("Цель:", True, (100, 255, 100))
+            text = font.render("Р¦РµР»СЊ:", True, (100, 255, 100))
             screen.blit(text, (width-199, 60))            
             font = pygame.font.Font(None, 34)
-            text = font.render("Нанести урон", True, (100, 255, 100))
+            text = font.render("РџРѕРґР±РёС‚СЊ РІСЂР°РіРѕРІ", True, (100, 255, 100))
             screen.blit(text, (width-199, 100))                      
             font = pygame.font.Font(None, 34)
             text = font.render(str(k_k), True, (100, 255, 100))
             screen.blit(text, (width-199, 130))            
             player_spr.draw(screen)
             if f_d < 100000:
-                text = font.render("Пролететь "+str(f_d), True, (100, 255, 100))
+                text = font.render("РџСЂРѕР»РµС‚РµС‚СЊ "+str(f_d), True, (100, 255, 100))
                 screen.blit(text, (width-199, 160))                      
                 font = pygame.font.Font(None, 34)
             else:
-                text = font.render("Пролететь", True, (100, 255, 100))
+                text = font.render("РџСЂРѕР»РµС‚РµС‚СЊ", True, (100, 255, 100))
                 screen.blit(text, (width-199, 160))                      
                 font = pygame.font.Font(None, 34)
                 text = font.render(str(f_d), True, (100, 255, 100))
                 screen.blit(text, (width-199, 190))                      
                 font = pygame.font.Font(None, 34)
-            text = font.render("Нанесён урон", True, (100, 255, 100))
+            text = font.render("РџРѕРґР±РёС‚Рѕ РєРѕСЂР°Р±Р»РµР№", True, (100, 255, 100))
             screen.blit(text, (width-199, 250))                      
             font = pygame.font.Font(None, 34)
             text = font.render(str(killed_ships), True, (100, 255, 100))
             screen.blit(text, (width-199, 280))            
             player_spr.draw(screen)
             if cadr < 100000:
-                text = font.render("Пройдено "+str(cadr), True, (100, 255, 100))
+                text = font.render("РџСЂРѕР№РґРµРЅРѕ "+str(cadr), True, (100, 255, 100))
                 screen.blit(text, (width-199, 310))                      
                 font = pygame.font.Font(None, 34)
             else:
-                text = font.render("Пройдено", True, (100, 255, 100))
+                text = font.render("РџСЂРѕР№РґРµРЅРѕ", True, (100, 255, 100))
                 screen.blit(text, (width-199, 310))                      
                 font = pygame.font.Font(None, 34)
                 text = font.render(str(cadr), True, (100, 255, 100))
@@ -334,7 +334,6 @@ class Game_2d:
                     w += 1
                     
             cadr += 1
-            # Окончание уровня
             if killed_ships >= k_k and cadr >= f_d:
                 self.res = 1
                 running = False
