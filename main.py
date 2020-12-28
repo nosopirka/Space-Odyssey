@@ -78,9 +78,9 @@ def start_screen():
 def spaceships_screen():
     global order
     spaceships = {
-        0: ['spaceship1.png', 'bullet1.png', 'opponent1.png', 'Characteristics 1:'],
-        1: ['spaceship2.png', 'bullet2.png', 'opponent2.png', 'Characteristics 2:'],
-        2: ['spaceship3.png', 'bullet3.png', 'opponent3.png', 'Characteristics 3:']
+        0: ['spaceship1_2.png', 'bullet1_1.png', 'opponent1.png', 'Characteristics 1:'],
+        1: ['spaceship2_2.png', 'bullet2_1.png', 'opponent2.png', 'Characteristics 2:'],
+        2: ['spaceship3_2.png', 'bullet3_1.png', 'opponent3.png', 'Characteristics 3:']
     }
     while True:
         fon = pygame.transform.scale(load_image('station.jpg'), (width, height))
@@ -92,7 +92,7 @@ def spaceships_screen():
 
         character_text = pygame.font.SysFont("Calibri", 30).render(spaceships[order][3], 1, (255, 255, 255))
 
-        ship_image = pygame.transform.scale(load_image(spaceships[order][0], -1), (300, 300))
+        ship_image = pygame.transform.scale(load_image(spaceships[order][0], -1), (305, 300))
         bullet_image = pygame.transform.scale(load_image(spaceships[order][1], -1), (50, 85))
 
         screen.blit(ship_image, (500, 200))
