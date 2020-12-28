@@ -3,6 +3,7 @@ import random
 import os
 import sys
 
+
 pygame.init()
 pygame.display.set_caption('')
 size = width, height = 1400, 700
@@ -16,7 +17,7 @@ order = 0
 opponents_armor = [1, 2, 3]
 bullet_force = [1, 2, 3]
 
-def load_image(name, colorkey=-1):
+def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
     if not os.path.isfile(fullname):
         print(fullname)
@@ -30,6 +31,7 @@ def load_image(name, colorkey=-1):
     else:
         image = image.convert_alpha()
     return image 
+
 
 class Button:
     def __init__(self, surface, color, x, y, w, h, text, text_color):
@@ -114,11 +116,12 @@ def spaceships_screen():
                     order = (order + 1) % 3
         pygame.display.flip()
         clock.tick(50)
+       
         
 class Player_2d(pygame.sprite.Sprite):
     def __init__(self, spaceship_id, player):
         super().__init__(all_sprites)
-        image = load_image("spaceship"+str(spaceship_id)+".png")
+        image = load_image("spaceship"+str(spaceship_id)+".png", -1)
         self.image = image
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
@@ -128,12 +131,13 @@ class Player_2d(pygame.sprite.Sprite):
         
     def update(self, x, y):
         self.rect = self.rect.move(x, y)
+     
         
 class Player_bullet(pygame.sprite.Sprite):
     def __init__(self, spaceship_id, player):
         super().__init__(all_sprites)
         self.player_bullet_spr = pygame.sprite.Group()
-        image = load_image("bullet"+str(spaceship_id)+".png")
+        image = load_image("bullet"+str(spaceship_id)+".png", -1)
         self.image = image
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
@@ -144,11 +148,12 @@ class Player_bullet(pygame.sprite.Sprite):
     def update(self, x, y):
         self.rect = self.rect.move(x, y)
 
+
 class Opp_bullet(pygame.sprite.Sprite):
     def __init__(self, spaceship_id, pos):
         super().__init__(all_sprites)
         self.opp_bullet_spr = pygame.sprite.Group()
-        image = load_image("opponent_bullet.png")
+        image = load_image("opponent_bullet.png", -1)
         self.image = image
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
@@ -158,12 +163,13 @@ class Opp_bullet(pygame.sprite.Sprite):
         
     def update(self, x, y):
         self.rect = self.rect.move(x, y)
+   
         
 class Opponents(pygame.sprite.Sprite):
     def __init__(self, opp_id, pos, lvl_opp):
         super().__init__(all_sprites)
         self.opponents_spr = pygame.sprite.Group()
-        image = load_image("opponent"+str(lvl_opp)+".png")
+        image = load_image("opponent"+str(lvl_opp)+".png", -1)
         self.image = image
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
@@ -252,7 +258,7 @@ class Game_2d:
             text = font.render("Цель:", True, (100, 255, 100))
             screen.blit(text, (width-199, 60))            
             font = pygame.font.Font(None, 34)
-            text = font.render("Подбить врагов", True, (100, 255, 100))
+            text = font.render("Нанести урон", True, (100, 255, 100))
             screen.blit(text, (width-199, 100))                      
             font = pygame.font.Font(None, 34)
             text = font.render(str(k_k), True, (100, 255, 100))
@@ -269,7 +275,7 @@ class Game_2d:
                 text = font.render(str(f_d), True, (100, 255, 100))
                 screen.blit(text, (width-199, 190))                      
                 font = pygame.font.Font(None, 34)
-            text = font.render("Подбито кораблей", True, (100, 255, 100))
+            text = font.render("Нанесён урон", True, (100, 255, 100))
             screen.blit(text, (width-199, 250))                      
             font = pygame.font.Font(None, 34)
             text = font.render(str(killed_ships), True, (100, 255, 100))
@@ -341,8 +347,11 @@ class Game_2d:
         
             clock.tick(fps)
 
+lvl = 10
 while True:
     start_screen()
     spaceships_screen()
-    print(Game_2d(1300, 700, 60, order + 1, 3, 100, 1000, 100, 6, 60).res)
+    if Game_2d(1300, 700, 60, order + 1, 3, lvl, 100, 100, 6, 60).res == 1:
+        print(lvl//10)
+        lvl += 10
 pygame.quit()
