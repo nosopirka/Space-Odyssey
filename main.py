@@ -208,15 +208,20 @@ class Game_2d:
                 if event.type == pygame.KEYUP:
                     last_pressed_button = None
                 if event.type == pygame.MOUSEBUTTONDOWN and abs(event.pos[0] - player[0]) < 32 and abs(event.pos[1] - player[1]) < 30:
-                    mbp = 1
-                if event.type == pygame.MOUSEBUTTONUP:
+                    mbp = 1 - mbp   
+                elif event.type == pygame.MOUSEBUTTONDOWN:
                     mbp = 0
-                if event.type == pygame.MOUSEMOTION and mbp==1:
+                if mbp == 1:
+                    pygame.mouse.set_visible(False)
+                else:
+                    pygame.mouse.set_visible(True)
+                    
+                if event.type == pygame.MOUSEMOTION and mbp==1 and last_pressed_button == None:
                     s = (-player[0] + max(32, min(player[0] + event.rel[0], width-232)), -player[1] + max(32, min(player[1] + event.rel[1], height-32)))
                     player = (max(32, min(player[0] + event.rel[0], width-232)), max(32, min(player[1] + event.rel[1], height-32)))
                     player_spr.update(*s)
                     
-            if last_pressed_button != None: 
+            if last_pressed_button != None and mbp == 0: 
                 event = last_pressed_button
                 if event.type == pygame.KEYDOWN and event.key == 1073741906:
                     s = min(10, player[1]-30)
@@ -242,13 +247,12 @@ class Game_2d:
                 pos_opp = (random.randrange((width-200)//75)*75+32, -20)
                 lvl_opp = random.randrange(opp_id)+1
                 opponents.append([Opponents(opp_id, pos_opp, lvl_opp), pos_opp, opponents_armor[lvl_opp-1]])
-                
             if cadr % bull_sp == 0:
                 player_bullets.append([Player_bullet(spaceship_id, [player[0], player[1] -30]), [player[0], player[1] -35]])
                 
             if random.randrange(opp_bul_ver) == 0:
                 pos = opponents[random.randrange(len(opponents))][1]
-                opp_bullets.append([Opp_bullet(spaceship_id, pos), pos])
+                opp_bullets.append([Opp_bullet(spaceship_id, (pos[0], pos[1] +20)), (pos[0], pos[1] +20)])
             
             pygame.draw.line(screen, (255, 255, 255), (width-200, 0), (width-200, height), 1)
             font = pygame.font.Font(None, 38)
@@ -301,6 +305,7 @@ class Game_2d:
                 opponents[opponent-w][1] = (opponents[opponent-w][1][0], opponents[opponent-w][1][1]+1)
                 if abs(opponents[opponent-w][1][0]- player[0]) < 60 and abs(opponents[opponent-w][1][1]- player[1]) < 60:
                     self.res = 0
+                    pygame.mouse.set_visible(True)
                     running = False  
                     
                 f = 0
@@ -333,7 +338,9 @@ class Game_2d:
                 if ((opp_bullets[opp_bullet-w][1][0]-player[0])**2+(opp_bullets[opp_bullet-w][1][1]-player[1])**2)**0.5  < 20:
                     del opp_bullets[opp_bullet-w]
                     w += 1
+                    pygame.mouse.set_visible(True)
                     self.res = 0
+                    
                     running = False  
                 elif opp_bullets[opp_bullet-w][1][1] < -50:
                     del opp_bullets[opp_bullet-w]
@@ -342,6 +349,7 @@ class Game_2d:
             cadr += 1
             if killed_ships >= k_k and cadr >= f_d:
                 self.res = 1
+                pygame.mouse.set_visible(True)
                 running = False
             pygame.display.flip()
         
