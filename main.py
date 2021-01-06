@@ -786,7 +786,10 @@ class Game_3d:
                     mbd = 1- mbd
                 elif mbd == 1 and event.type == pygame.MOUSEMOTION:
                     cam_a = (min(45, max(-45, cam_a[0] + event.rel[0]*vcm)), min(45, max(-45, cam_a[1] - event.rel[1]*vcm)))
-        
+
+            if not running:
+                break
+
             screen.fill(pygame.Color('black'))
             cam = (cam[0]+1, cam[1], cam[2])
             
@@ -977,20 +980,21 @@ while True:
         if res == 3:
             while gaming2:
                 spaceships_screen()
-                res_game = Game_3d(1300, 700, 60, order + 1, 3, lvl, 100, 200, 6, 60).res
-                if res_game == 1:
-                    levelpass_screen(True, lvl // 10)
-                    lvl += 10
-                elif res_game == 0:
-                    levelpass_screen(False, lvl // 10)
-                    result = cur.execute("""SELECT lvl FROM rec
-                                            WHERE nick == '""" + nickname + """'""").fetchall()
-                    if lvl // 10 > result[0][0]:
-                        cur.execute("""UPDATE rec
-                        SET lvl = """ + str(lvl // 10) + """ 
+                if gaming2:
+                    res_game = Game_3d(1300, 700, 60, order + 1, 3, lvl, 100, 200, 6, 60).res
+                    if res_game == 1:
+                        levelpass_screen(True, lvl // 10)
+                        lvl += 10
+                    elif res_game == 0:
+                        levelpass_screen(False, lvl // 10)
+                        result = cur.execute("""SELECT lvl FROM rec
                         WHERE nick == '""" + nickname + """'""").fetchall()
-                        con.commit()
-                    lvl = 10
+                        if lvl // 10 > result[0][0]:
+                            cur.execute("""UPDATE rec
+                            SET lvl = """ + str(lvl // 10) + """ 
+                            WHERE nick == '""" + nickname + """'""").fetchall()
+                            con.commit()
+                        lvl = 10
         elif res == 2:
             while gaming2:
                 spaceships_screen()
